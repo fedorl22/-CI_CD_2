@@ -1,0 +1,34 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build_job:
+  stage: build
+  script:
+    - echo "Building the project"
+
+test_job:
+  stage: test
+  script:
+    - docker run my-image
+  dependencies:
+    - build_job
+
+deploy_pages:
+  stage: deploy
+  script:
+    - echo "Deploying GitLab Pages"
+  artifacts:
+    paths:
+      - public
+
+pages:
+  stage: deploy
+  script:
+    - echo "Publishing GitLab Pages"
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
